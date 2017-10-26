@@ -1,10 +1,7 @@
-// this is aliased in webpack config based on server/client build
-import { createAPI } from 'create-api';
+import request from 'request';
+const streams = require('memory-streams');
 
-const api = createAPI({
-  SPACE_ID: process.env.SPACE_ID,
-  ACCESS_TOKEN: process.env.ACCESS_TOKEN
-});
+const writer = new streams.WritableStream();
 
 /*
 ------------------------------------------
@@ -13,52 +10,24 @@ const api = createAPI({
 | Method Notes
 ------------------------------------------ */
 export function init(){
-  return getContentTypes()
-    .then(fetchEntries)
-    .then((entries) => {
-      return entries[0];
-    })
-    .catch((error) => {
-      if (error.stack) {
-        console.error(error.stack);
-        return;
-      }
-      console.error(error);
-    });
-}
-
-export function getContentTypes () {
-  return fetchContentTypes()
-    .then((contentTypes) => {
-      return contentTypes;
-    });
-}
-
-export function fetchEntries (contentTypes) {
-  return Promise.all(contentTypes.map((contentType) => {
-    return fetchEntriesForContentType(contentType)
-      .then((entries) => {
-        return entries;
+  if( writer.toString() == '' || process.env.NODE_ENV == 'development'){
+    return new Promise( (resolve, reject) => { 
+      request({
+        url: 'http://assets.legwork.studio/data/project.json',
+        json: true
+      }, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+          writer.write(JSON.stringify(body));
+          resolve(body);
+        } else {
+          reject(error);
+        }
       });
-  }));
-}
-
-// Load all Content Types in your space from Contentful
-export function fetchContentTypes () {
-  return api.getContentTypes()
-    .then((response) => response.items)
-    .catch((error) => {
-      console.error(error);
     });
-}
-
-// Load all entries for a given Content Type from Contentful
-export function fetchEntriesForContentType (contentType) {
-  return api.getEntries({
-    content_type: contentType.sys.id
-  })
-    .then((response) => response.items)
-    .catch((error) => {
-      console.error(error);
+  } else {
+    return new Promise( (resolve) => {
+      const cache = JSON.parse(writer.toString());
+      resolve(cache);
     });
+  }
 }

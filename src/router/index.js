@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import ContentView from '../views/ContentView.vue';
+import BizWidgetView from '../views/BizWidgetView.vue';
 import StyleGuide from '../views/StyleGuide.vue';
 
 // Set Vue to use the Router
@@ -25,11 +26,11 @@ export function createRouter () {
 
   // Default routes
   _router.addRoutes([
-    { path: '/search', component: ContentView, props: true },
-    { path: '/search/:project_search', component: ContentView, props: true },
-    { path: '/:discipline', component: ContentView, props: true },
-    { path: '/:discipline/:project', component: ContentView, props: true },
-    { path: '/', component: ContentView, props: true }
+    { path: '/search', components: {ContentView, BizWidgetView}, props: true },
+    { path: '/search/:project_search', components: {ContentView, BizWidgetView}, props: true },
+    { path: '/:discipline', components: {ContentView, BizWidgetView}, props: true },
+    { path: '/:discipline/:project', components: {ContentView, BizWidgetView}, props: true },
+    { path: '/', components: {ContentView, BizWidgetView}, props: true }
   ]);
 
   return _router;

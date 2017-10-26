@@ -9,6 +9,8 @@ role :app, %w{root@45.55.137.213}
 role :web, %w{root@45.55.137.213}
 role :db,  %w{root@45.55.137.213}
 
+set :branch, "staging"
+
 
 # Extended Server Syntax
 # ======================

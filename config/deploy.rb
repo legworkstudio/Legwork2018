@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock "3.9.1"
+lock "3.10.0"
 
 set :application, 'legwork2018'
 set :repo_url, 'git@github.com:legworkstudio/Legwork2018.git'
@@ -43,7 +43,7 @@ namespace :deploy do
       execute "forever stopall"
       execute "cd /var/www/#{fetch(:application)}/current && forever start server.js"
       execute "sudo service nginx restart"
-      
+
     end
   end
 

@@ -2,12 +2,12 @@ import Vue from 'vue';
 import 'es6-promise/auto';
 import { createApp } from './app';
 
-// a global mixin that calls `asyncData` when a route component's params change
+// a global mixin that calls `ssrInit` when a route component's params change
 Vue.mixin({
   beforeRouteUpdate (to, from, next) {
-    const { asyncData } = this.$options;
-    if (asyncData) {
-      asyncData({
+    const { ssrInit } = this.$options;
+    if (ssrInit) {
+      ssrInit({
         store: this.$store,
         route: to
       }).then(next).catch(next);
@@ -28,7 +28,7 @@ if (window.__INITIAL_STATE__) {
 // wait until router has resolved all async before hooks
 // and async components...
 router.onReady(() => {
-  // Add router hook for handling asyncData.
+  // Add router hook for handling ssrInit.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
   // async components are resolved.
@@ -39,12 +39,12 @@ router.onReady(() => {
     const activated = matched.filter((c, i) => {
       return diffed || (diffed = (prevMatched[i] !== c));
     });
-    const asyncDataHooks = activated.map(c => c.asyncData).filter(_ => _);
-    if (!asyncDataHooks.length) {
+    const ssrInitHooks = activated.map(c => c.ssrInit).filter(_ => _);
+    if (!ssrInitHooks.length) {
       return next();
     }
 
-    Promise.all(asyncDataHooks.map(hook => hook({ store, route: to })))
+    Promise.all(ssrInitHooks.map(hook => hook({ store, route: to })))
       .then(() => {
         next();
       })

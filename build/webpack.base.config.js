@@ -21,15 +21,29 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'public': path.resolve(__dirname, '../public')
+      'public': path.resolve(__dirname, '../public'),
+      'components': path.resolve(__dirname, '../src/components')
     }
   },
   node: {
-   fs: "empty"
+    console: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
     rules: [
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        loader: "eslint-loader",
+        exclude: /node_modules/,
+        query: {
+          configFile: "./.eslintrc.js",
+          fix: true
+        }
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
