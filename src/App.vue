@@ -49,7 +49,8 @@ html, body
   height: 100%
 
 body
-  background-color: $white
+  background-color: $color-bg-body
+  color: $color-text
   // TODO
   font: normal normal normal 14px/14px $font1
   -webkit-font-smoothing: antialiased
