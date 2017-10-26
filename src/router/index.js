@@ -20,7 +20,7 @@ export function createRouter () {
   // Based on environment special routes
   if( process.env.NODE_ENV != 'production' ){
     _router.addRoutes([
-      { path: '/style', components: {StyleGuide}, props: true }
+      { path: '/style', component: StyleGuide, props: true }
     ]);
   }
 

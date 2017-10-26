@@ -3,6 +3,7 @@
     <header-view></header-view>
     <hero-view></hero-view>
     <content-view></content-view>
+    <router-view></router-view>
     <biz-widget-view></biz-widget-view>
     <power-tools-view></power-tools-view>
     <footer-view></footer-view>
@@ -48,7 +49,8 @@ html, body
   height: 100%
 
 body
-  background-color: $white
+  background-color: $color-bg-body
+  color: $color-text
   // TODO
   font: normal normal normal 14px/14px $font1
   -webkit-font-smoothing: antialiased

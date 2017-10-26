@@ -10,8 +10,7 @@ const writer = new streams.WritableStream();
 | Method Notes
 ------------------------------------------ */
 export function init(){
-
-  if( writer.toString() == '' ){
+  if( writer.toString() == '' || process.env.NODE_ENV == 'development'){
     return new Promise( (resolve, reject) => { 
       request({
         url: 'http://assets.legwork.studio/data/project.json',

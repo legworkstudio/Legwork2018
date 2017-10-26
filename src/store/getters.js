@@ -1,10 +1,12 @@
 export default {
   nextPage: (state) => {
-    let _current = _.find(state.pages, {title: state.route.params.discipline});
-    let _currentIndex = _.indexOf(state.pages, _current);
-    let _nextIndex = _currentIndex < state.pages.length - 1 ? _currentIndex + 1 : 0;
+    if( state.pages.length > 0 ){
+      let _current = _.find(state.pages, {title: state.route.params.discipline});
+      let _currentIndex = _.indexOf(state.pages, _current);
+      let _nextIndex = _currentIndex < state.pages.length - 1 ? _currentIndex + 1 : 0;
 
-    return state.pages[_nextIndex].title;
+      return state.pages[_nextIndex].title;
+    }
   },
   projects: (state) => {
     let _projects = [];

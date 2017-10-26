@@ -4,18 +4,20 @@
       <p>Page: {{ discipline }}</p>
       <p>Next: <router-link v-bind:to="{ path: nextPageLink }">{{ nextPage }}</router-link></p>
       <p v-show="project_search">Search: {{ project_search }}</p>
-      <ul v-show="projects">
-        <li v-for="project in projects">
-          {{ project.project_name }}
-        </li>
-      </ul>
+      <div id='content-cells'>
+        <project-cell-view v-for="project in projects" :key="project.slug" :project="project"></project-cell-view>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import ProjectCellView from 'components/content-view/ProjectCellView.vue';
 export default {
   name: 'content-view',
+  components: {
+    ProjectCellView
+  },
   computed: {
     project_search () {
       return this.$route.params.project_search;
@@ -39,7 +41,7 @@ export default {
 };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import "src/styles/global"
 
 #content
@@ -50,21 +52,10 @@ export default {
     grid-column: 3 / span 20
     grid-row: 1
 
-    ul
+    #content-cells
       display: flex
       flex-direction: row
       justify-content: space-between
       flex-wrap: wrap
       margin-top: span(1, 20)
-
-      li
-        display: inline-block
-        width: span(9, 20)
-        height: 0
-        padding-bottom: span(9, 20)
-        background:
-          color: $gray
-          size: cover
-          position: center
-        margin-bottom: span(2, 20)
 </style>
